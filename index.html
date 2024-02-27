@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>US Population</title>
+</head>
+<script>
+fetch('https://datausa.io/api/data?drilldowns=Nation&measures=Population')
+  .then(response => response.json())
+  .then(data => {
+    // Handle the data here
+	console.log(data.data)
+	// Create the table
+	const table = document.getElementById('main');
+	const thead = document.createElement('thead');
+	const tbody = document.createElement('tbody');
+	const tr = document.createElement('tr');
+
+	// Create the table headers
+	const headers = ['Year', 'Population'];
+	headers.forEach(header => {
+		const th = document.createElement('th');
+		th.textContent = header;
+		tr.appendChild(th);
+	});
+	thead.appendChild(tr);
+	table.appendChild(thead);
+
+	data.data.sort((a, b) => a.Year - b.Year);
+
+	// Add the data to the table
+	data.data.forEach(item => {
+		const tr = document.createElement('tr');
+		const year = document.createElement('td');
+		const population = document.createElement('td');
+		year.textContent = item.Year;
+		population.textContent = (item.Population).toLocaleString();
+		tr.appendChild(year);
+		tr.appendChild(population);
+		tbody.appendChild(tr);
+	});
+	table.appendChild(tbody);
+
+	// Append the table to the body
+	document.body.appendChild(table);
+})
+	  .catch(error => {
+	    // Handle any errors here
+		
+	  });
+	</script>
+	<body>
+	</body>
+	</html>
+	
+</script>
+<style>
+	td{
+		padding: 10px;
+	}
+</style>
+<body>
+	<table id="main" border="1">
+		<thead>
+            <tr>
+                <!-- Set colspan to 2 since there are 2 columns -->
+                <th colspan="2">US Population</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table data will be inserted here by your JavaScript -->
+        </tbody>
+	</table>
+</body>
+</html>
